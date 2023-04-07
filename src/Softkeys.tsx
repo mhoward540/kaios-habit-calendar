@@ -11,9 +11,12 @@ const APP_INFO_TEXT = `This app is meant to help you build habits and keep track
 
 Controls:
 1 - Back 1 month
+2 - Go to current month
 3 - Forward 1 month
 DPAD - Select a day
 SELECT - Update habit status
+5 - Select month
+7 - Select year
 
 Habit statuses:
 GREEN - Done
