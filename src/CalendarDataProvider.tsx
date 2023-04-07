@@ -36,6 +36,10 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
       ...habitData(),
       [habitName]: {},
     });
+
+    if (habitList().length === 1) {
+      setSelectedHabit(habitName);
+    }
   };
 
   return {

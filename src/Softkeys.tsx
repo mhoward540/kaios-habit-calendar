@@ -1,4 +1,4 @@
-import { Component, createSignal, For, Index, Show } from "solid-js";
+import { Component, createSignal, Match, Switch } from "solid-js";
 import SleepyBoyMenu, {
   ActionMenuItem,
   GroupedItems,
@@ -8,7 +8,8 @@ import { createShortcut } from "@solid-primitives/keyboard";
 import { useCalendarData } from "./CalendarDataProvider";
 
 const Softkeys: Component = () => {
-  const [isMenuOpen, setIsMenuOpen] = createSignal(false);
+  const [isHabitMenuOpen, setIsHabitMenuOpen] = createSignal(false);
+  const [isOptionsMenuOpen, setIsOptionsMenuOpen] = createSignal(false);
 
   const {
     habits: {
@@ -16,11 +17,12 @@ const Softkeys: Component = () => {
       setSelectedHabit,
       habitList,
       setShouldShowAddHabitPopup,
+      setHabitData,
     },
     calendar: { increment, decrement },
   } = useCalendarData();
 
-  const myMenu = (): Menu => {
+  const habitMenu = (): Menu => {
     const habits: ActionMenuItem[] = habitList().map((habitName) => ({
       name: habitName,
       value: habitName,
@@ -44,6 +46,18 @@ const Softkeys: Component = () => {
     };
   };
 
+  const optionsMenu = (): Menu => {
+    return {
+      items: [
+        {
+          name: "Delete all habits",
+          value: "lmao-l8r",
+          handler: () => setHabitData({}),
+        },
+      ],
+    };
+  };
+
   createShortcut(["3"], increment, {
     preventDefault: false,
     requireReset: true,
@@ -57,7 +71,15 @@ const Softkeys: Component = () => {
   createShortcut(
     ["SOFTRIGHT"],
     () => {
-      setIsMenuOpen(true);
+      setIsHabitMenuOpen(true);
+    },
+    { requireReset: true }
+  );
+
+  createShortcut(
+    ["SOFTLEFT"],
+    () => {
+      setIsOptionsMenuOpen(true);
     },
     { requireReset: true }
   );
@@ -69,13 +91,22 @@ const Softkeys: Component = () => {
         <div class="softkey softkey-center">select</div>
         <div class="softkey softkey-right">habits</div>
       </div>
-      <Show when={isMenuOpen()}>
-        <SleepyBoyMenu
-          selected={selectedHabit()}
-          menu={myMenu()}
-          handleClose={() => setIsMenuOpen(false)}
-        />
-      </Show>
+      <Switch>
+        <Match when={isHabitMenuOpen()}>
+          <SleepyBoyMenu
+            selected={selectedHabit()}
+            menu={habitMenu()}
+            handleClose={() => setIsHabitMenuOpen(false)}
+          />
+        </Match>
+        <Match when={isOptionsMenuOpen()}>
+          <SleepyBoyMenu
+            selected={""}
+            menu={optionsMenu()}
+            handleClose={() => setIsOptionsMenuOpen(false)}
+          />
+        </Match>
+      </Switch>
     </>
   );
 };
