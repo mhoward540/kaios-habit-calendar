@@ -18,7 +18,7 @@ const monthOptions = [
   "Dec",
 ];
 
-const CalendarHeader: Component = () => {
+const CalendarControls: Component = () => {
   const {
     calendar: {
       displayMonth,
@@ -93,4 +93,4 @@ const CalendarHeader: Component = () => {
   );
 };
 
-export default CalendarHeader;
+export default CalendarControls;
