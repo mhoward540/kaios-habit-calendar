@@ -42,7 +42,7 @@ const CalendarHeader: Component = () => {
       <div class="col-span-3">
         <select
           value={displayMonth().getMonth()}
-          onInput={e => setMonth(parseInt(e.currentTarget.value as string))}
+          onChange={e => setMonth(parseInt(e.currentTarget.value as string))}
         >
           <Index each={monthOptions}>
             {(monthOption, i) => (<option value={i.toString()}>{monthOption}</option>)}
@@ -50,7 +50,7 @@ const CalendarHeader: Component = () => {
         </select>
         <select
           value={displayMonth().getFullYear()}
-          onInput={e => setYear(parseInt(e.currentTarget.value as string))}
+          onChange={e => setYear(parseInt(e.currentTarget.value as string))}
         >
           <Index each={yearOptions()}>
             {(yearOption, i) => (<option value={yearOption()}>{yearOption()}</option>)}
