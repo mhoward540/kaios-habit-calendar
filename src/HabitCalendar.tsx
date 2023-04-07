@@ -139,7 +139,22 @@ const HabitCalendar: Component = () => {
 
   return (
     <div class="w-full h-full">
-      <div class="w-full h-full grid gap-1 grid-cols-7 grid-rows-6">
+      <div
+        class="w-full grid gap-1 grid-cols-7 grid-rows-1"
+        style={{ height: "5%", "margin-bottom": "2%" }}
+      >
+        <For each={["S", "M", "T", "W", "T", "F", "S"]}>
+          {(dayOfWeek) => (
+            <div class="text-center font-bold" style={{ "font-size": "1rem" }}>
+              {dayOfWeek}
+            </div>
+          )}
+        </For>
+      </div>
+      <div
+        class="w-full grid gap-1 grid-cols-7 grid-rows-6"
+        style={{ height: "93%" }}
+      >
         <For each={displayArr()}>
           {(currEntry, i) => {
             const { year, month, date } = partsFromDateString(currEntry.date);
