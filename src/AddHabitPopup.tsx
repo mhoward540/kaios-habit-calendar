@@ -1,63 +1,52 @@
-import { createSignal, Component, onMount, Show } from "solid-js";
+import type { Component } from "solid-js";
+import { createEffect } from "solid-js";
 import { useCalendarData } from "./CalendarDataProvider";
 
 const DEFAULT_MESSAGE =
   "Type the name of your habit here! Come back every day to track it";
 
-const InternalAddHabitPopup: Component = () => {
-  const [message, setMessage] = createSignal(DEFAULT_MESSAGE);
+const AddHabitPopup: Component = () => {
   const {
     habits: {
+      shouldShowAddHabitPopup,
+      setShouldShowAddHabitPopup,
       addHabit,
       habitList,
-      setShouldShowAddHabitPopup,
       setSelectedHabit,
     },
   } = useCalendarData();
 
-  onMount(() => {
-    let newHabitName = "";
-    let isInvalid = true;
-
-    for (let i = 0; i < 3; i++) {
-      newHabitName = prompt(message()) || "";
-      isInvalid = !newHabitName || habitList().includes(newHabitName);
-      if (isInvalid) {
-        const infix = !newHabitName ? "empty" : "existing";
-        setMessage(`You've entered an ${infix} habit name, please try again`);
-      } else {
-        break;
-      }
+  createEffect(() => {
+    if (!shouldShowAddHabitPopup()) {
+      return;
     }
 
-    // happy case
-    if (!isInvalid) {
-      addHabit(newHabitName);
+    let message = DEFAULT_MESSAGE;
+    for (let i = 0; i < 3; i++) {
+      const newHabit = prompt(message);
+      const isInvalid = !newHabit || habitList().includes(newHabit);
+      if (isInvalid) {
+        message = `You've entered an ${
+          !newHabit ? "empty" : "existing"
+        } habit name, please try again`;
+        continue;
+      }
+
+      addHabit(newHabit);
+      setSelectedHabit(newHabit); // not sure why it's needed but it is
       setShouldShowAddHabitPopup(false);
-      setSelectedHabit(newHabitName);
       return;
     }
 
     if (habitList().length === 0) {
       window.close();
+    } else {
+      setSelectedHabit(habitList()[0]);
+      setShouldShowAddHabitPopup(false);
     }
-
-    setSelectedHabit(habitList()[0]);
-    setShouldShowAddHabitPopup(false);
   });
 
   return <></>;
-};
-
-const AddHabitPopup: Component = () => {
-  const {
-    habits: { shouldShowAddHabitPopup },
-  } = useCalendarData();
-  return (
-    <Show when={shouldShowAddHabitPopup()} fallback={<></>}>
-      <InternalAddHabitPopup />
-    </Show>
-  );
 };
 
 export default AddHabitPopup;
