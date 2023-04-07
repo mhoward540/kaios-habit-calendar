@@ -1,6 +1,7 @@
 import { createContext, createSignal, useContext } from "solid-js";
 import { cloneDate } from "./utils/CalendarUtils";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { iterateNumDays } from "./utils/CalendarUtils";
 import { CalendarYear, HabitData } from "./types";
 
 interface Props {
@@ -10,6 +11,29 @@ interface Props {
 
 const todaysDate = new Date();
 const thisMonth = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1);
+
+const dayNames = (() => {
+  const curr = cloneDate(todaysDate);
+  curr.setDate(todaysDate.getDate() - todaysDate.getDay());
+  // TODO should probably happen dynamically
+  return [...iterateNumDays(curr, 7)].map((d) =>
+    Intl.DateTimeFormat(navigator.language, { weekday: "short" }).format(d)
+  );
+})();
+
+const monthNames = (() => {
+  const d = new Date(2023, 0, 1);
+  const arr = [];
+  for (let i = 0; i < 11; i++) {
+    arr.push(
+      Intl.DateTimeFormat(navigator.language, { month: "short" }).format(d)
+    );
+
+    d.setMonth(d.getMonth() + 1);
+  }
+
+  return arr;
+})();
 
 export const makeCalendarDataContext = (initialDate = todaysDate) => {
   const [displayMonth, setDisplayMonth] = createSignal(initialDate);
@@ -54,6 +78,8 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
     calendar: {
       thisMonth,
       todaysDate,
+      dayNames,
+      monthNames,
       displayMonth,
       increment: () => {
         const newMonth = cloneDate(displayMonth());

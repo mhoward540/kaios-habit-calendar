@@ -1,27 +1,12 @@
 import { Component, Index } from "solid-js";
 import { useCalendarData } from "./CalendarDataProvider";
 
-// TODO localization should be easyish with toLocaleString. We just need to get the user's locale
-const monthOptions = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
 const CalendarControls: Component = () => {
   const {
     calendar: {
       displayMonth,
       thisMonth,
+      monthNames,
       increment,
       decrement,
       resetDisplay,
@@ -51,9 +36,9 @@ const CalendarControls: Component = () => {
           value={displayMonth().getMonth()}
           onChange={(e) => setMonth(parseInt(e.currentTarget.value as string))}
         >
-          <Index each={monthOptions}>
+          <Index each={monthNames}>
             {(monthOption, i) => (
-              <option value={i.toString()}>{monthOption}</option>
+              <option value={i.toString()}>{monthOption()}</option>
             )}
           </Index>
         </select>

@@ -73,7 +73,7 @@ const HabitCalendar: Component = () => {
   );
 
   const {
-    calendar: { todaysDate, displayMonth },
+    calendar: { todaysDate, dayNames, displayMonth },
     habits: { yearData, setYearData },
   } = useCalendarData();
 
@@ -143,7 +143,7 @@ const HabitCalendar: Component = () => {
         class="w-full grid gap-1 grid-cols-7 grid-rows-1"
         style={{ height: "5%", "margin-bottom": "2%" }}
       >
-        <For each={["S", "M", "T", "W", "T", "F", "S"]}>
+        <For each={dayNames}>
           {(dayOfWeek) => (
             <div class="text-center font-bold" style={{ "font-size": "1rem" }}>
               {dayOfWeek}
