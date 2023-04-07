@@ -33,6 +33,9 @@ const HabitCalendar: Component = () => {
 
   const handleNav = (amount: number) => {
     let newIndex = (selectedIndex() + amount) % 42;
+    if (newIndex < 0) {
+      newIndex = 42 + newIndex;
+    }
 
     setSelectedIndex(newIndex);
     calendarCellRefs[newIndex]?.focus();
@@ -58,7 +61,11 @@ const HabitCalendar: Component = () => {
 
   createShortcut(
     ["Enter"],
-    () => calendarCellRefs[selectedIndex()]?.click(), // hacky but I already handled clicking soooo
+    () => {
+      calendarCellRefs[selectedIndex()]?.click(); // hacky but I already handled clicking soooo
+      // also hack. i want focus to stay after click. preventing default doesnt seem to work
+      setTimeout(() => calendarCellRefs[selectedIndex()]?.focus(), 10)
+    },
     {
       preventDefault: false,
       requireReset: true,
@@ -165,7 +172,6 @@ const HabitCalendar: Component = () => {
               <div
                 class={cx(
                   "text-center",
-                  styles.calendarCell,
                   currentDayClasses,
                   dayClasses,
                   textColorClass
