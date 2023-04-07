@@ -1,7 +1,3 @@
-.calendarCell:focus {
-  background-color: blue;
-}
-
 .prevMonthCell {
   color: rgb(209, 213, 219);
 }
