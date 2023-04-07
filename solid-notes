@@ -1,0 +1,1 @@
+- onInput doesn't seem to work for dropdown components, use onChange instead

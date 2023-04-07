@@ -13,9 +13,6 @@ const thisMonth = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1)
 
 export const makeCalendarDataContext = (initialDate = todaysDate) => {
   const [displayMonth, setDisplayMonth] = createSignal(initialDate);
-  // TODO make nullable and handle - needed to accommodate adding the first habit
-  // TODO should this be a different context?
-  const [selectedHabit, setSelectedHabit] = createSignal<string>("Washing my willy")
   const [habitData, setHabitData] = useLocalStorage<HabitData>("habits", {
     "Washing my willy": {
       "2022": {
@@ -26,11 +23,16 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
       }
     }
   })
+  // TODO make nullable and handle - needed to accommodate adding the first habit
+  // TODO base this off of habitData somehow - probably need a useEffect type thing here
+  const [selectedHabit, setSelectedHabit] = createSignal<string>("Washing my willy")
   const yearData = () => habitData()[selectedHabit()];
   const setYearData = (yearData: CalendarYear) => setHabitData({
     ...habitData(),
     [selectedHabit()]: yearData
   })
+
+  const habitList = () => Object.keys(habitData())
 
   return {
     "calendar": {
@@ -68,7 +70,8 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
       habitData,
       setHabitData,
       yearData,
-      setYearData
+      setYearData,
+      habitList
     }
   }
 }

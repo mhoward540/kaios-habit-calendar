@@ -2,6 +2,7 @@ import type {Component} from 'solid-js';
 import styles from './App.module.css';
 import HabitCalendar from "./HabitCalendar";
 import CalendarHeader from "./CalendarHeader";
+import AppHeader from "./AppHeader";
 import {CalendarDataProvider} from "./CalendarDataProvider";
 
 const App: Component = () => {
@@ -11,6 +12,9 @@ const App: Component = () => {
   return (
     <div class={styles.MainApp}>
       <CalendarDataProvider initialDate={displayMonth}>
+        <div class={styles.AppHeaderContainer}>
+          <AppHeader />
+        </div>
         <div class={styles.CalendarHeaderContainer}>
           <CalendarHeader/>
         </div>
