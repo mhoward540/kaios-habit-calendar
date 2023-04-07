@@ -42,25 +42,18 @@ const HabitCalendar: Component = () => {
     handleNav(0);
   });
 
-  // TODO maybe the ref is not even needed. We can just highlight based on index I guess, then apply class in the calendar
-  createShortcut(["ArrowLeft"], () => handleNav(-1), {
-    preventDefault: false,
-    requireReset: true,
-  });
+  const keyToIncrement: [string, number][] = [
+    ["ArrowLeft", -1],
+    ["ArrowRight", 1],
+    ["ArrowUp", -7],
+    ["ArrowDown", 7],
+  ];
 
-  createShortcut(["ArrowUp"], () => handleNav(-7), {
-    preventDefault: false,
-    requireReset: true,
-  });
-
-  createShortcut(["ArrowDown"], () => handleNav(7), {
-    preventDefault: false,
-    requireReset: true,
-  });
-
-  createShortcut(["ArrowRight"], () => handleNav(1), {
-    preventDefault: false,
-    requireReset: true,
+  keyToIncrement.map(([key, increment]) => {
+    createShortcut([key], () => handleNav(increment), {
+      preventDefault: false,
+      requireReset: true,
+    });
   });
 
   createShortcut(
@@ -71,6 +64,7 @@ const HabitCalendar: Component = () => {
       requireReset: true,
     }
   );
+
   const {
     calendar: { todaysDate, displayMonth },
     habits: { yearData, setYearData },
