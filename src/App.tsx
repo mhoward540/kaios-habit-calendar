@@ -29,6 +29,11 @@ const App: Component = () => {
             https://www.kaiads.com/publishers/sdk.html#responsive
             https://www.solidjs.com/tutorial/bindings_refs
         */}
+            <div class="softkeys">
+              <div class="softkey softkey-left">left key</div>
+              <div class="softkey softkey-center">select</div>
+              <div class="softkey softkey-right">right key</div>
+            </div>
             </CalendarDataProvider>
         </div>
     );
