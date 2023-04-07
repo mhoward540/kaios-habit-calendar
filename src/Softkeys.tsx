@@ -1,10 +1,10 @@
-import { Component, createSignal, Match, Switch, createEffect } from "solid-js";
+import { Component, createSignal, Match, Switch } from "solid-js";
 import SleepyBoyMenu, {
   ActionMenuItem,
   GroupedItems,
   Menu,
 } from "@/SleepyBoyMenu";
-import { createShortcut, useKeyDownList } from "@solid-primitives/keyboard";
+import { createShortcut } from "@solid-primitives/keyboard";
 import { useCalendarData } from "./CalendarDataProvider";
 
 const APP_INFO_TEXT = `This app is meant to help you build habits and keep track of your progress. Add new habits here and try to keep up with them each day!
@@ -43,7 +43,6 @@ const Softkeys: Component = () => {
       setSelectedHabit,
       habitList,
       setShouldShowAddHabitPopup,
-      setHabitData,
       deleteHabit,
     },
     calendar: { increment, decrement },

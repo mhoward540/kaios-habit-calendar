@@ -40,8 +40,6 @@ export function* iterateNumDays(start: Date, numDays: number) {
 
 export function* iterateBetween(start: Date, end: Date): Generator<Date> {
   if (start > end) {
-    console.log(start);
-    console.log(end);
     // TODO
     throw new Error("something");
   }

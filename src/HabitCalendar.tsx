@@ -119,7 +119,7 @@ const HabitCalendar: Component = () => {
     if (newEntryStatus === CalendarEntryStatus.EMPTY) {
       // remove data at the key "monthKey" and keep the rest of the data
       // this reduces the amount of data being stored in the local storage
-      const { [monthKey]: something = null, ...rest } = clickedMonthData;
+      const { [monthKey]: _ = null, ...rest } = clickedMonthData;
       newMonthData = rest;
     } else {
       newMonthData = {

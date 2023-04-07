@@ -1,5 +1,5 @@
 import type { Component } from "solid-js";
-import { createSignal, For, onMount, Switch, Match } from "solid-js";
+import { For, onMount, Switch, Match } from "solid-js";
 import cx from "classnames";
 
 export interface ActionMenuItem {
@@ -84,7 +84,6 @@ const SleepyBoyMenu: Component<Props> = (props) => {
   });
 
   const handleMenuSelect = (e: MenuSelectEvent) => {
-    console.log("hitsss bb");
     const selectedMenuItem = nameToTypeMapping()[e.currentTarget.value];
     // the problem is that we can't distinguish between a blur which cancels the select and a blur which selects a submenu
     // we probably need to check which input the event is happening on or something hacky like that

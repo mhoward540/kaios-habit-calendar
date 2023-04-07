@@ -43,7 +43,7 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
   };
 
   const deleteHabit = (habitName: string) => {
-    const { [habitName]: thing, ...rest } = habitData();
+    const { [habitName]: _, ...rest } = habitData();
     setHabitData(rest);
     if (selectedHabit() === habitName && habitList().length > 0) {
       setSelectedHabit(habitList()[0]);
