@@ -1,0 +1,14 @@
+.MainApp {
+  width: 100%;
+  height: 100%;
+}
+
+.CalendarHeaderContainer {
+  width: 100%;
+  height: 6%;
+}
+
+.HabitCalendarContainer {
+  width: 100%;
+  height: 94%;
+}
