@@ -10,7 +10,7 @@
     "64": "/images/icon-64.png",
     "48": "/images/icon-48.png"
   },
-  "cursor": true,
+  "cursor": false,
   "theme_color": "#FFFFFF",
   "developer": {
     "name": "Matt Howard",

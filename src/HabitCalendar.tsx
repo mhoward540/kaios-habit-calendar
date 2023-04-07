@@ -1,5 +1,6 @@
-import type { Component } from "solid-js";
-import { For } from "solid-js";
+import { Component, onMount } from "solid-js";
+import { For, createSignal } from "solid-js";
+import { createShortcut } from "@solid-primitives/keyboard";
 import cx from "classnames";
 import {
   cloneDate,
@@ -26,6 +27,50 @@ const habitStatusToIndex = [
 ];
 
 const HabitCalendar: Component = () => {
+  const [selectedIndex, setSelectedIndex] = createSignal(0);
+
+  const calendarCellRefs: (HTMLDivElement | undefined)[] = Array(42);
+
+  const handleNav = (amount: number) => {
+    let newIndex = (selectedIndex() + amount) % 42;
+
+    setSelectedIndex(newIndex);
+    calendarCellRefs[newIndex]?.focus();
+  };
+
+  onMount(() => {
+    handleNav(0);
+  });
+
+  // TODO maybe the ref is not even needed. We can just highlight based on index I guess, then apply class in the calendar
+  createShortcut(["ArrowLeft"], () => handleNav(-1), {
+    preventDefault: false,
+    requireReset: true,
+  });
+
+  createShortcut(["ArrowUp"], () => handleNav(-7), {
+    preventDefault: false,
+    requireReset: true,
+  });
+
+  createShortcut(["ArrowDown"], () => handleNav(7), {
+    preventDefault: false,
+    requireReset: true,
+  });
+
+  createShortcut(["ArrowRight"], () => handleNav(1), {
+    preventDefault: false,
+    requireReset: true,
+  });
+
+  createShortcut(
+    ["Enter"],
+    () => calendarCellRefs[selectedIndex()]?.click(), // hacky but I already handled clicking soooo
+    {
+      preventDefault: false,
+      requireReset: true,
+    }
+  );
   const {
     calendar: { todaysDate, displayMonth },
     habits: { yearData, setYearData },
@@ -95,7 +140,7 @@ const HabitCalendar: Component = () => {
     <div class="w-full h-full">
       <div class="w-full h-full grid gap-1 grid-cols-7 grid-rows-6">
         <For each={displayArr()}>
-          {(currEntry) => {
+          {(currEntry, i) => {
             const { year, month, date } = partsFromDateString(currEntry.date);
 
             // TODO probably can make a utility class out of this. e.g. "outlined-cell"
@@ -126,11 +171,14 @@ const HabitCalendar: Component = () => {
               <div
                 class={cx(
                   "text-center",
+                  styles.calendarCell,
                   currentDayClasses,
                   dayClasses,
                   textColorClass
                 )}
+                tabIndex={i()}
                 onClick={(_) => handleCellClick(currEntry.date)}
+                ref={calendarCellRefs[i()]}
               >
                 {date}
               </div>
