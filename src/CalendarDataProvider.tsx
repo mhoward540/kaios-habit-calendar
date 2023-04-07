@@ -21,7 +21,8 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
         "6-24": {date: "2022-6-24", status: CalendarEntryStatus.FAILED},
         "6-25": {date: "2022-6-25", status: CalendarEntryStatus.EMPTY},
       }
-    }
+    },
+    "Something funny": {}
   })
   // TODO make nullable and handle - needed to accommodate adding the first habit
   // TODO base this off of habitData somehow - probably need a useEffect type thing here
