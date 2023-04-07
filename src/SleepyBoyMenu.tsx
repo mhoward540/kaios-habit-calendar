@@ -28,7 +28,6 @@ type MenuSelectEvent = Event & {
   target: Element;
 };
 
-// TODO maybe turn this into a component instead?
 export interface Menu {
   items: (ActionMenuItem | GroupedItems)[];
 }

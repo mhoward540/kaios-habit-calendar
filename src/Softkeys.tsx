@@ -7,6 +7,32 @@ import SleepyBoyMenu, {
 import { createShortcut, useKeyDownList } from "@solid-primitives/keyboard";
 import { useCalendarData } from "./CalendarDataProvider";
 
+const APP_INFO_TEXT: string = `This app is meant to help you build habits and keep track of your progress. Add new habits here and try to keep up with them each day!
+
+Controls:
+1 - Back 1 month
+3 - Forward 1 month
+DPAD - Select a day
+SELECT - Update habit status
+
+Habit statuses:
+GREEN - Done
+YELLOW - Partial
+RED - Missed
+
+Credits:
+Created by Matt Howard
+https://www.github.com/mhoward540
+
+Some hooks copied from:
+https://github.com/NukeJS/solidjs-hooks
+
+Some CSS/JS for KaiOS styling from:
+https://github.com/canicjusz/KaiOS-native-UI
+
+Agenda icons created by Saepul Nahwan - Flaticon
+https://www.flaticon.com/free-icons/agenda`;
+
 const Softkeys: Component = () => {
   const [isHabitMenuOpen, setIsHabitMenuOpen] = createSignal(false);
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = createSignal(false);
@@ -18,6 +44,7 @@ const Softkeys: Component = () => {
       habitList,
       setShouldShowAddHabitPopup,
       setHabitData,
+      deleteHabit,
     },
     calendar: { increment, decrement },
   } = useCalendarData();
@@ -47,13 +74,25 @@ const Softkeys: Component = () => {
   };
 
   const optionsMenu = (): Menu => {
+    const habits: ActionMenuItem[] = habitList().map((habitName) => ({
+      name: habitName,
+      value: habitName,
+      handler: () => deleteHabit(habitName),
+    }));
+
+    const habitGroup: GroupedItems = {
+      groupName: "Delete habit",
+      items: habits,
+    };
+
     return {
       items: [
         {
-          name: "Delete all habits",
-          value: "lmao-l8r",
-          handler: () => setHabitData({}),
+          name: "App info",
+          value: "app-info",
+          handler: () => alert(APP_INFO_TEXT),
         },
+        habitGroup,
       ],
     };
   };

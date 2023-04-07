@@ -42,12 +42,19 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
     }
   };
 
+  const deleteHabit = (habitName: string) => {
+    const { [habitName]: thing, ...rest } = habitData();
+    setHabitData(rest);
+    if (selectedHabit() === habitName && habitList().length > 0) {
+      setSelectedHabit(habitList()[0]);
+    }
+  };
+
   return {
     calendar: {
       thisMonth,
       todaysDate,
       displayMonth,
-      // TODO simplify this shit, I have too many functions doing similar things
       increment: () => {
         const newMonth = cloneDate(displayMonth());
         newMonth.setMonth(newMonth.getMonth() + 1);
@@ -74,6 +81,7 @@ export const makeCalendarDataContext = (initialDate = todaysDate) => {
     },
     habits: {
       addHabit,
+      deleteHabit,
       showAddHabitPopup,
       setShouldShowAddHabitPopup,
       shouldShowAddHabitPopup,

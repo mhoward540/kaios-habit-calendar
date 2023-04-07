@@ -144,7 +144,6 @@ const HabitCalendar: Component = () => {
           {(currEntry, i) => {
             const { year, month, date } = partsFromDateString(currEntry.date);
 
-            // TODO probably can make a utility class out of this. e.g. "outlined-cell"
             const currentDayClasses =
               todaysDate.getDate() === date &&
               todaysDate.getMonth() === month &&
