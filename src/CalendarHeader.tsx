@@ -1,6 +1,6 @@
 import {Component, Index} from "solid-js";
 import {useCalendarData} from "./CalendarDataProvider";
-
+import cx from 'classnames';
 
 // TODO localization should be easyish with toLocaleString. We just need to get the user's locale
 const monthOptions = [
@@ -35,7 +35,7 @@ const CalendarHeader: Component = () => {
     .map((i) => thisMonth.getFullYear() + (i - 5))
 
   return (
-    <div class="w-full h-full grid grid-cols-5 text-center text-sm">
+    <div class={cx("w-full", "h-full", "grid", "grid-cols-5", "text-center", "text-xl")}>
       <div onClick={_ => decrement()}>
         {"<"}
       </div>
@@ -52,9 +52,12 @@ const CalendarHeader: Component = () => {
           value={displayMonth().getFullYear()}
           onChange={e => setYear(parseInt(e.currentTarget.value as string))}
         >
-          <Index each={yearOptions()}>
-            {(yearOption, i) => (<option value={yearOption()}>{yearOption()}</option>)}
-          </Index>
+          {/* */}
+          <optgroup>
+            <Index each={yearOptions()}>
+              {(yearOption, i) => (<option value={yearOption()}>{yearOption()}</option>)}
+            </Index>
+          </optgroup>
         </select>
         &nbsp
         <button onClick={e => handleResetDisplay(e)} title="Go to current month">📅</button>

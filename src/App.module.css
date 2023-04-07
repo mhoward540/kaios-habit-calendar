@@ -1,20 +1,17 @@
 .MainApp {
   width: 100%;
   height: 100%;
+  font-size: 1.7rem;
+;
 }
 
 .CalendarHeaderContainer {
   width: 100%;
-  height: 9%;
+  height: 10%;
 }
 
 /* TODO this probably needs some reactive styles based on screensize because it looks ridic on desktop */
 .HabitCalendarContainer {
   width: 100%;
-  height: 84%;
-}
-
-.AppHeaderContainer {
-  width: 100%;
-  height: 7%;
+  height: 90%;
 }

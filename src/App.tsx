@@ -12,14 +12,16 @@ const App: Component = () => {
   return (
     <div class={styles.MainApp}>
       <CalendarDataProvider initialDate={displayMonth}>
-        <div class={styles.AppHeaderContainer}>
+        <div id="header">
           <AppHeader />
         </div>
-        <div class={styles.CalendarHeaderContainer}>
-          <CalendarHeader/>
-        </div>
-        <div class={styles.HabitCalendarContainer}>
-          <HabitCalendar/>
+        <div id='content'>
+          <div class={styles.CalendarHeaderContainer}>
+            <CalendarHeader/>
+          </div>
+          <div class={styles.HabitCalendarContainer}>
+            <HabitCalendar/>
+          </div>
         </div>
         {/*
           TODO there appears to be space for an ad down here even on low resolution devices.
@@ -28,6 +30,11 @@ const App: Component = () => {
             https://www.solidjs.com/tutorial/bindings_refs
         */}
       </CalendarDataProvider>
+      <div class="softkeys">
+        <div class="softkey softkey-left">left key</div>
+        <div class="softkey softkey-center">select</div>
+        <div class="softkey softkey-right">right key</div>
+      </div>
     </div>
   );
 };
