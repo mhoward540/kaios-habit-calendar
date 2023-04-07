@@ -1,7 +1,8 @@
-import {Component, For, Index} from "solid-js";
+import {Component, createSignal, For, Index, Show} from "solid-js";
 import {useCalendarData} from "./CalendarDataProvider";
 import cx from 'classnames';
 import {createShortcut} from "@solid-primitives/keyboard";
+import SleepyBoyMenu, {Menu} from "@/SleepyBoyMenu";
 
 // TODO localization should be easyish with toLocaleString. We just need to get the user's locale
 const monthOptions = [
@@ -29,7 +30,7 @@ const CalendarHeader: Component = () => {
         resetDisplay()
     }
 
-    let menuRef: HTMLSelectElement | undefined;
+    const [isMenuOpen, setIsMenuOpen] = createSignal(false);
 
     createShortcut(
         ["3"],
@@ -46,15 +47,9 @@ const CalendarHeader: Component = () => {
     createShortcut(
         ["SOFTRIGHT"],
         () => {
-            if (!menuRef) {
-                return;
-            }
-
-            menuRef.classList.remove("hidden")
-            menuRef.focus()
-            menuRef.classList.add("hidden")
+            setIsMenuOpen(true)
         },
-        {preventDefault: false, requireReset: true}
+        {requireReset: true}
     );
 
     // TODO this is a little hacky but is fine for now. We don't check boundaries to go to next or prev month
@@ -65,6 +60,24 @@ const CalendarHeader: Component = () => {
         ...Array(11).keys()
     ]
         .map((i) => thisMonth.getFullYear() + (i - 5))
+
+    const myMenu: Menu = {
+        items: [
+            {
+                name: "Select Habit",
+                submenu: {
+                    handleBasicItem: (item) => {
+                        setSelectedHabit(item.name)
+                    },
+                    items: habitList().map((name) => ({name}))
+                }
+            },
+            {
+                name: "Toggle Dark Mode",
+                handler: () => {console.log("Toggled dark mode")}
+            }
+        ]
+    }
 
     return (
         <div class={cx("w-full", "h-full", "grid", "grid-cols-5", "text-center", "text-xl")}>
@@ -97,17 +110,9 @@ const CalendarHeader: Component = () => {
             <div onClick={_ => increment()}>
                 {">"}
             </div>
-            <select class="hidden" id="thingy" ref={menuRef} onChange={(e) => {
-                setSelectedHabit(setSelectedHabit((e.target as HTMLSelectElement).value))
-            }}>
-                <For
-                    each={habitList()}
-                >
-                    {(habit) => (
-                        <option>{habit}</option>
-                    )}
-                </For>
-            </select>
+            <Show when={isMenuOpen()}>
+                <SleepyBoyMenu menu={myMenu} handleClose={() => setIsMenuOpen(false)}/>
+            </Show>
         </div>
     )
 }

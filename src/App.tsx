@@ -30,11 +30,6 @@ const App: Component = () => {
             https://www.solidjs.com/tutorial/bindings_refs
         */}
             </CalendarDataProvider>
-            <div class="softkeys">
-                <div class="softkey softkey-left">left key</div>
-                <div class="softkey softkey-center">select</div>
-                <div class="softkey softkey-right">right key</div>
-            </div>
         </div>
     );
 };
