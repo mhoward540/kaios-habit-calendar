@@ -165,6 +165,7 @@ const HabitCalendar: Component = () => {
               <div
                 class={cx(
                   "text-center",
+                  styles.calendarCell,
                   currentDayClasses,
                   dayClasses,
                   textColorClass
