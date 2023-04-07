@@ -1,10 +1,10 @@
-import { Component, createSignal, Match, Switch } from "solid-js";
+import { Component, createSignal, Match, Switch, createEffect } from "solid-js";
 import SleepyBoyMenu, {
   ActionMenuItem,
   GroupedItems,
   Menu,
 } from "@/SleepyBoyMenu";
-import { createShortcut } from "@solid-primitives/keyboard";
+import { createShortcut, useKeyDownList } from "@solid-primitives/keyboard";
 import { useCalendarData } from "./CalendarDataProvider";
 
 const Softkeys: Component = () => {
@@ -68,21 +68,20 @@ const Softkeys: Component = () => {
     requireReset: true,
   });
 
-  createShortcut(
-    ["SOFTRIGHT"],
-    () => {
-      setIsHabitMenuOpen(true);
-    },
-    { requireReset: true }
-  );
+  createShortcut(["SOFTRIGHT"], () => setIsHabitMenuOpen(true), {
+    requireReset: true,
+  });
 
-  createShortcut(
-    ["SOFTLEFT"],
-    () => {
-      setIsOptionsMenuOpen(true);
-    },
-    { requireReset: true }
-  );
+  createShortcut(["SOFTLEFT"], () => setIsOptionsMenuOpen(true), {
+    requireReset: true,
+  });
+
+  // const [keys, { event }] = useKeyDownList();
+
+  // createEffect(() => {
+  //   console.log(keys()); // => string[] — list of currently held keys
+  //   console.log(event()); // => KeyboardEvent | null — last keydown event
+  // });
 
   return (
     <>

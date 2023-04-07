@@ -7,18 +7,42 @@ const DEFAULT_MESSAGE =
 const InternalAddHabitPopup: Component = () => {
   const [message, setMessage] = createSignal(DEFAULT_MESSAGE);
   const {
-    habits: { addHabit, habitList, setShouldShowAddHabitPopup },
+    habits: {
+      addHabit,
+      habitList,
+      setShouldShowAddHabitPopup,
+      setSelectedHabit,
+    },
   } = useCalendarData();
 
   onMount(() => {
     let newHabitName: string = "";
-    do {
-      newHabitName = prompt(message()) || "";
-      const infix = !newHabitName ? "empty" : "existing";
-      setMessage(`You've entered an ${infix} habit name, please try again`);
-    } while (!newHabitName || habitList().includes(newHabitName));
+    let isInvalid = true;
 
-    addHabit(newHabitName);
+    for (let i = 0; i < 3; i++) {
+      newHabitName = prompt(message()) || "";
+      isInvalid = !newHabitName || habitList().includes(newHabitName);
+      if (isInvalid) {
+        const infix = !newHabitName ? "empty" : "existing";
+        setMessage(`You've entered an ${infix} habit name, please try again`);
+      } else {
+        break;
+      }
+    }
+
+    // happy case
+    if (!isInvalid) {
+      addHabit(newHabitName);
+      setShouldShowAddHabitPopup(false);
+      setSelectedHabit(newHabitName);
+      return;
+    }
+
+    if (habitList().length === 0) {
+      window.close();
+    }
+
+    setSelectedHabit(habitList()[0]);
     setShouldShowAddHabitPopup(false);
   });
 

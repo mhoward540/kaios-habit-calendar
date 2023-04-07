@@ -64,7 +64,7 @@ const HabitCalendar: Component = () => {
     () => {
       calendarCellRefs[selectedIndex()]?.click(); // hacky but I already handled clicking soooo
       // also hack. i want focus to stay after click. preventing default doesnt seem to work
-      setTimeout(() => calendarCellRefs[selectedIndex()]?.focus(), 10)
+      setTimeout(() => calendarCellRefs[selectedIndex()]?.focus(), 10);
     },
     {
       preventDefault: false,
