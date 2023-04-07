@@ -5,6 +5,7 @@ import CalendarHeader from "./CalendarHeader";
 import AppHeader from "./AppHeader";
 import Softkeys from "./Softkeys";
 import { CalendarDataProvider } from "./CalendarDataProvider";
+import AddHabitPopup from "./AddHabitPopup";
 
 const App: Component = () => {
   const todaysDate = new Date();
@@ -28,6 +29,7 @@ const App: Component = () => {
             <HabitCalendar />
           </div>
         </div>
+        <AddHabitPopup />
         <Softkeys />
         {/*
           TODO there appears to be space for an ad down here even on low resolution devices.

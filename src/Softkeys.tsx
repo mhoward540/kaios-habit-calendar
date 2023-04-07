@@ -11,7 +11,12 @@ const Softkeys: Component = () => {
   const [isMenuOpen, setIsMenuOpen] = createSignal(false);
 
   const {
-    habits: { selectedHabit, setSelectedHabit, habitList },
+    habits: {
+      selectedHabit,
+      setSelectedHabit,
+      habitList,
+      setShouldShowAddHabitPopup,
+    },
     calendar: { increment, decrement },
   } = useCalendarData();
 
@@ -30,11 +35,9 @@ const Softkeys: Component = () => {
     return {
       items: [
         {
-          name: "Toggle Dark Mode",
-          value: "dark-mode",
-          handler: () => {
-            console.log("Toggled dark mode");
-          },
+          name: "Create habit",
+          value: "create-habit",
+          handler: () => setShouldShowAddHabitPopup(true),
         },
         habitGroup,
       ],
