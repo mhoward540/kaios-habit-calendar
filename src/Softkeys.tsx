@@ -7,7 +7,7 @@ import SleepyBoyMenu, {
 import { createShortcut, useKeyDownList } from "@solid-primitives/keyboard";
 import { useCalendarData } from "./CalendarDataProvider";
 
-const APP_INFO_TEXT: string = `This app is meant to help you build habits and keep track of your progress. Add new habits here and try to keep up with them each day!
+const APP_INFO_TEXT = `This app is meant to help you build habits and keep track of your progress. Add new habits here and try to keep up with them each day!
 
 Controls:
 1 - Back 1 month

@@ -16,7 +16,7 @@ const InternalAddHabitPopup: Component = () => {
   } = useCalendarData();
 
   onMount(() => {
-    let newHabitName: string = "";
+    let newHabitName = "";
     let isInvalid = true;
 
     for (let i = 0; i < 3; i++) {

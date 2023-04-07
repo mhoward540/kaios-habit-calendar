@@ -83,7 +83,7 @@ const HabitCalendar: Component = () => {
   const displayArr = () => {
     const md = monthData() || {};
 
-    let calendarStart = cloneDate(displayMonth());
+    const calendarStart = cloneDate(displayMonth());
     calendarStart.setDate(displayMonth().getDate() - displayMonth().getDay());
 
     // TODO logic to change the first day in the week goes here (e.g. setting for starting week on Sunday or Monday)
@@ -119,7 +119,7 @@ const HabitCalendar: Component = () => {
     if (newEntryStatus === CalendarEntryStatus.EMPTY) {
       // remove data at the key "monthKey" and keep the rest of the data
       // this reduces the amount of data being stored in the local storage
-      let { [monthKey]: something = null, ...rest } = clickedMonthData;
+      const { [monthKey]: something = null, ...rest } = clickedMonthData;
       newMonthData = rest;
     } else {
       newMonthData = {

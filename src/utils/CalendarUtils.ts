@@ -14,7 +14,7 @@ export function* iterateDate(d: Date): Generator<Date> {
 
 export function* iterateDateToMonthEnd(d: Date): Generator<Date> {
   const currMonth = d.getMonth();
-  for (let currDay of iterateDate(d)) {
+  for (const currDay of iterateDate(d)) {
     if (currDay.getMonth() !== currMonth) {
       break;
     }
@@ -29,7 +29,7 @@ export function* iterateNumDays(start: Date, numDays: number) {
   }
 
   let i = 0;
-  for (let currDay of iterateDate(start)) {
+  for (const currDay of iterateDate(start)) {
     yield currDay;
     i += 1;
     if (i === numDays) {
@@ -46,7 +46,7 @@ export function* iterateBetween(start: Date, end: Date): Generator<Date> {
     throw new Error("something");
   }
 
-  for (let currDay of iterateDate(start)) {
+  for (const currDay of iterateDate(start)) {
     if (
       currDay.getDay() === end.getDay() &&
       currDay.getMonth() === end.getMonth() &&
