@@ -35,11 +35,11 @@ const CalendarHeader: Component = () => {
     .map((i) => thisMonth.getFullYear() + (i - 5))
 
   return (
-    <div class="w-full h-full grid grid-cols-4 text-center text-sm">
+    <div class="w-full h-full grid grid-cols-5 text-center text-sm">
       <div onClick={_ => decrement()}>
         {"<"}
       </div>
-      <div class="col-span-2">
+      <div class="col-span-3">
         <select
           value={displayMonth().getMonth()}
           onInput={e => setMonth(parseInt(e.currentTarget.value as string))}

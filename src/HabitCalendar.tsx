@@ -11,6 +11,7 @@ import {
 } from "./utils/CalendarUtils";
 import {useCalendarData} from "./CalendarDataProvider";
 import {CalendarEntry, CalendarEntryStatus, CalendarMonth, DateString} from "./types";
+import styles from "./HabitCalendar.module.css"
 
 const habitStatusToIndex = [
   CalendarEntryStatus.DONE,
@@ -98,12 +99,12 @@ const HabitCalendar: Component = () => {
             const key = dateStringToKey(currEntry.date)
             const dayData = monthData()?.[key];
             const dayClasses = dayData ? {
-              "bg-green-500": dayData.status === CalendarEntryStatus.DONE,
-              "bg-red-500": dayData.status === CalendarEntryStatus.FAILED,
-              "bg-yellow-500": dayData.status === CalendarEntryStatus.PARTIAL
+              [styles.completed] : dayData.status === CalendarEntryStatus.DONE,
+              [styles.failed]: dayData.status === CalendarEntryStatus.FAILED,
+              [styles.partial]: dayData.status === CalendarEntryStatus.PARTIAL
             } : {}
 
-            const textColorClass = month !== displayMonth().getMonth() ? ["text-gray-300"] : []
+            const textColorClass = month !== displayMonth().getMonth() ? [styles.prevMonthCell] : []
 
             return (
               <div
