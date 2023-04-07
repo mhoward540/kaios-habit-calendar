@@ -1,6 +1,5 @@
 import { Component, Index } from "solid-js";
 import { useCalendarData } from "./CalendarDataProvider";
-import cx from "classnames";
 
 // TODO localization should be easyish with toLocaleString. We just need to get the user's locale
 const monthOptions = [
@@ -45,16 +44,7 @@ const CalendarControls: Component = () => {
     ].map((i) => thisMonth.getFullYear() + (i - 5));
 
   return (
-    <div
-      class={cx(
-        "w-full",
-        "h-full",
-        "grid",
-        "grid-cols-5",
-        "text-center",
-        "text-xl"
-      )}
-    >
+    <div class="w-full h-full grid grid-cols-5 text-center text-xl">
       <div onClick={(_) => decrement()}>{"<"}</div>
       <div class="col-span-3">
         <select
