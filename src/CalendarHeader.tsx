@@ -1,8 +1,6 @@
 import { Component, createSignal, For, Index, Show } from "solid-js";
 import { useCalendarData } from "./CalendarDataProvider";
 import cx from "classnames";
-import { createShortcut } from "@solid-primitives/keyboard";
-import SleepyBoyMenu, { Menu } from "@/SleepyBoyMenu";
 
 // TODO localization should be easyish with toLocaleString. We just need to get the user's locale
 const monthOptions = [
@@ -31,32 +29,11 @@ const CalendarHeader: Component = () => {
       setMonth,
       setYear,
     },
-    habits: { habitList, setSelectedHabit },
   } = useCalendarData();
   const handleResetDisplay = (e: Event) => {
     e.preventDefault();
     resetDisplay();
   };
-
-  const [isMenuOpen, setIsMenuOpen] = createSignal(false);
-
-  createShortcut(["3"], increment, {
-    preventDefault: false,
-    requireReset: true,
-  });
-
-  createShortcut(["1"], decrement, {
-    preventDefault: false,
-    requireReset: true,
-  });
-
-  createShortcut(
-    ["SOFTRIGHT"],
-    () => {
-      setIsMenuOpen(true);
-    },
-    { requireReset: true }
-  );
 
   // TODO this is a little hacky but is fine for now. We don't check boundaries to go to next or prev month
   //  we also don't check which years already have data. So it's possible the months that the years which have data
@@ -66,26 +43,6 @@ const CalendarHeader: Component = () => {
       // 5 years ago + this year + 5 years into the future
       ...Array(11).keys(),
     ].map((i) => thisMonth.getFullYear() + (i - 5));
-
-  const myMenu: Menu = {
-    items: [
-      {
-        name: "Select Habit",
-        submenu: {
-          handleBasicItem: (item) => {
-            setSelectedHabit(item.name);
-          },
-          items: habitList().map((name) => ({ name })),
-        },
-      },
-      {
-        name: "Toggle Dark Mode",
-        handler: () => {
-          console.log("Toggled dark mode");
-        },
-      },
-    ],
-  };
 
   return (
     <div
@@ -132,9 +89,6 @@ const CalendarHeader: Component = () => {
         </button>
       </div>
       <div onClick={(_) => increment()}>{">"}</div>
-      <Show when={isMenuOpen()}>
-        <SleepyBoyMenu menu={myMenu} handleClose={() => setIsMenuOpen(false)} />
-      </Show>
     </div>
   );
 };

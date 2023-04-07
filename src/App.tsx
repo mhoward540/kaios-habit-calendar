@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import HabitCalendar from "./HabitCalendar";
 import CalendarHeader from "./CalendarHeader";
 import AppHeader from "./AppHeader";
+import Softkeys from "./Softkeys";
 import { CalendarDataProvider } from "./CalendarDataProvider";
 
 const App: Component = () => {
@@ -27,17 +28,13 @@ const App: Component = () => {
             <HabitCalendar />
           </div>
         </div>
+        <Softkeys />
         {/*
           TODO there appears to be space for an ad down here even on low resolution devices.
             We can create a div and pass a ref to it from the provider. Then use KaiOS ads API. Sources:
             https://www.kaiads.com/publishers/sdk.html#responsive
             https://www.solidjs.com/tutorial/bindings_refs
         */}
-        <div class="softkeys">
-          <div class="softkey softkey-left">left key</div>
-          <div class="softkey softkey-center">select</div>
-          <div class="softkey softkey-right">right key</div>
-        </div>
       </CalendarDataProvider>
     </div>
   );
