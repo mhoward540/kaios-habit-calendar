@@ -1,5 +1,5 @@
 import type { Component } from "solid-js";
-import { createSignal, For, onMount } from "solid-js";
+import { createSignal, For, onMount, Switch, Match } from "solid-js";
 import cx from "classnames";
 
 export interface ActionMenuItem {
@@ -8,15 +8,29 @@ export interface ActionMenuItem {
   handler: () => any;
 }
 
+export interface GroupedItems {
+  groupName: string;
+  items: ActionMenuItem[];
+}
+
+const isMenuItem = (a: ActionMenuItem | GroupedItems): a is ActionMenuItem => {
+  return "name" in a;
+};
+
+const isGroupedItems = (
+  a: ActionMenuItem | GroupedItems
+): a is GroupedItems => {
+  return "groupName" in a;
+};
+
 type MenuSelectEvent = Event & {
   currentTarget: HTMLSelectElement;
   target: Element;
 };
 
 // TODO maybe turn this into a component instead?
-// TODO try optgroups?
 export interface Menu {
-  items: ActionMenuItem[];
+  items: (ActionMenuItem | GroupedItems)[];
 }
 
 interface Props {
@@ -34,7 +48,13 @@ const SleepyBoyMenu: Component<Props> = (props) => {
 
   const nameToTypeMapping = () =>
     props.menu.items.reduce((acc, curr) => {
-      acc[curr.name] = curr;
+      if (isMenuItem(curr)) {
+        acc[curr.name] = curr;
+      } else {
+        curr.items.forEach((element) => {
+          acc[element.name] = element;
+        });
+      }
       return acc;
     }, {} as { [key: string]: ActionMenuItem });
 
@@ -82,9 +102,30 @@ const SleepyBoyMenu: Component<Props> = (props) => {
       >
         <For each={props.menu.items}>
           {(item) => (
-            <option selected={item.value === props.selected} class="w-0 h-0">
-              {item.name}
-            </option>
+            <Switch>
+              <Match when={isMenuItem(item)}>
+                <option
+                  selected={(item as ActionMenuItem).value === props.selected}
+                  class="w-0 h-0"
+                >
+                  {(item as ActionMenuItem).name}
+                </option>
+              </Match>
+              <Match when={isGroupedItems(item)}>
+                <optgroup label={(item as GroupedItems).groupName}>
+                  <For each={(item as GroupedItems).items}>
+                    {(groupItem) => (
+                      <option
+                        selected={groupItem.value === props.selected}
+                        class="w-0 h-0"
+                      >
+                        {groupItem.name}
+                      </option>
+                    )}
+                  </For>
+                </optgroup>
+              </Match>
+            </Switch>
           )}
         </For>
       </select>

@@ -1,5 +1,9 @@
 import { Component, createSignal, For, Index, Show } from "solid-js";
-import SleepyBoyMenu, { ActionMenuItem, Menu } from "@/SleepyBoyMenu";
+import SleepyBoyMenu, {
+  ActionMenuItem,
+  GroupedItems,
+  Menu,
+} from "@/SleepyBoyMenu";
 import { createShortcut } from "@solid-primitives/keyboard";
 import { useCalendarData } from "./CalendarDataProvider";
 
@@ -11,27 +15,30 @@ const Softkeys: Component = () => {
     calendar: { increment, decrement },
   } = useCalendarData();
 
-  const myMenu = () => {
+  const myMenu = (): Menu => {
     const habits: ActionMenuItem[] = habitList().map((habitName) => ({
-      name: `Select habit: ${habitName}`,
+      name: habitName,
       value: habitName,
-      handler: () => {
-        console.log(`Selected ${habitName}`);
-        setSelectedHabit(habitName);
-      },
+      handler: () => setSelectedHabit(habitName),
     }));
+
+    const habitGroup: GroupedItems = {
+      groupName: "Select habit",
+      items: habits,
+    };
 
     return {
       items: [
-        ...habits,
         {
           name: "Toggle Dark Mode",
+          value: "dark-mode",
           handler: () => {
             console.log("Toggled dark mode");
           },
         },
+        habitGroup,
       ],
-    } as Menu;
+    };
   };
 
   createShortcut(["3"], increment, {
